@@ -1,0 +1,45 @@
+Q=1;
+while Q==1
+% Método de Newton para calcular la raíz enésima de "a"
+
+% Solicitar la raíz "n"
+n = input('Ingrese la raíz (n): ');
+
+% Solicitar el valor de "a"
+a = input('Ingrese el valor de a: ');
+
+% Definir la función y su derivada
+f = @(x) x^n - a;
+df = @(x) n*x^(n-1);
+
+% Valor inicial de la aproximación
+x0 = 1.0;
+
+% Parámetros de precisión
+tolerancia = 1e-6;  % Tolerancia de convergencia
+max_iteraciones = 100;  % Máximo número de iteraciones
+
+% Aplicar el Método de Newton
+x = x0;
+iteraciones = 0;
+
+while any(abs(f(x)) > tolerancia) && iteraciones < max_iteraciones
+    x = x - f(x) ./ df(x);
+    iteraciones = iteraciones + 1;
+end
+
+% Mostrar el resultado
+if any(abs(f(x)) <= tolerancia)
+    if mod(n,2) == 0
+        disp(['La raíz enésima de ' num2str(a) ' es: ' num2str(x)]);
+        disp(['y -' num2str(x)]);
+    else
+        disp(['La raíz enésima de ' num2str(a) ' es: ' num2str(x)]);
+    end
+    
+else
+    disp('No se pudo encontrar la raíz enésima con la precisión deseada.');
+end
+Q=input('para continuar pulse 1. \n Para salir pulse diferente de 1');
+    clc;
+end
