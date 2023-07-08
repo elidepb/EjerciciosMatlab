@@ -1,0 +1,33 @@
+while true
+    %Introduccion de datos
+    x1=input('introduce el limite inferior: ');
+    x2=input('introduce el limite superior: ');
+    if x1>x2
+        fprintf('Error, ingrese los valores correctos');
+    else
+        %creacion de la grafica de la funcion
+        x=linspace(-20,20,50000); y = (1/(sqrt(2*pi)))*exp(-(x.^2)/2); plot(x,y,'k');
+        %creacion del eje coordenado X
+        hold on
+        a=linspace(-20,20,5000); b=0*a; plot(a,b,'b');
+        %Sombreado
+        hold on
+        grid on
+        D=x1:0.01:x2;
+        p1=(1/(sqrt(2*pi)))*exp(-(D.^2)/2);
+        area(D,p1)
+        %valor de area
+        syms xa;
+        f=(1/(sqrt(2*pi)))*exp(-(xa^2)/2);
+        format short
+        vpa(int(f,x1,x2))
+    end
+    I= input('ingrese:\n1: para salir \n2: Continuar\n');
+    if I == 1
+        break;
+    elseif I==2     
+        continue;
+    end
+end
+
+
