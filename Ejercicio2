@@ -1,0 +1,84 @@
+f=input('Ingrese la función\n');
+f=inline(f);
+
+m=input('Ingrese el límite inferior\n');
+n=input('Ingrese el límite superior\n');
+raices = [];
+
+if m>=n
+    
+    fprintf('El límite inferior debe ser menor que el límite superior!');
+    
+else
+    h=input('Ingrese una amplitud\n');
+    a=m;b=a+h;
+    
+    while f(a)*f(b)>0 && b<n
+        a=b;b=a+h;
+    end
+    if b>n
+        fprintf('No existe solucion\n');
+    else
+        if f(a)*f(b)==0
+            if f(a)==0
+                fprintf('La solucion es: %5.2f\n',a);
+              
+            else
+                fprintf('La solucion es: %5.2f\n',b);
+            end
+            
+            
+        else
+           % Obtener el grado de la función
+            syms x;
+            expr = sym(f(x));
+            grado = max(feval(symengine, 'degree', expr));
+
+           fprintf('El polinomio es de grado: %5.2f\n',grado);
+            
+             for i=1:grado
+                
+                 
+                 c=(a+b)/2;
+                  
+                 while abs(f(c))>0.00001
+                     if f(a)*f(c)>0
+                         a=c;
+                     else
+                         b=c;
+                     end
+                     
+                     c=(a+b)/2;
+                     d=c;
+                     
+                     %%si el polinomio es grado n y hay n-k raices
+                     %%entra en un bucle infinito, el condicional rompe el
+                     %%bucle cuando se alcanzo el valor del limite superior
+                     if c==n
+                         break;
+                     end
+                     
+                    
+                     
+                   
+                 end
+                 
+                 if c<n
+                     fprintf('raiz n° %5.2f : %5.2f \n',i,c);
+                 end
+                 
+                 a=b;
+                 b=n;
+                 
+                 
+                   
+             end
+
+        end
+    end
+end
+
+
+ 
+    
+   
