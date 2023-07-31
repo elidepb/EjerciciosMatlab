@@ -1,4 +1,4 @@
-f=input('Ingrese la función\n');
+f=input('Ingrese la función\n','s');
 f=inline(f);
 
 m=input('Ingrese el límite inferior\n');
