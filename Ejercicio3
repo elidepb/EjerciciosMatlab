@@ -1,5 +1,5 @@
 %pedir el polinomio
-f=input('Ingrese el polinomio \n');
+f=input('Ingrese el polinomio \n','s');
 f=inline(f);
 
 %pedir el intervalo
