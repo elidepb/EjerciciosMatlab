@@ -1,0 +1,28 @@
+clc;
+fprintf('*****\tCÁLCULO DEL TANGENTE DE X USANDO EL METODO DE TAYLOR\t*****\n');
+fprintf('------------------------------------------------------------------\n')
+%pedir el valor de x en radianes
+x_rad = input('Ingrese el valor de x en radianes:\n','s');
+x = str2num(x_rad);
+
+% Inicializamos la variable donde acumularemos el resultado
+resultado = 0;
+resultado_cos=0;
+resultado_sen=0;
+% Calculamos el valor de cos(x) utilizando la expansión de Taylor
+for i = 0:100
+    termino = ((-1)^i) * (x^(2*i)) / factorial(2*i);
+    resultado_cos = resultado_cos + termino;
+end
+for i = 0:100
+    termino = ((-1)^i) * (x^((2*i)+1)) / factorial((2*i)+1);
+    resultado_sen = resultado_sen + termino;
+end
+
+resultado=(resultado_sen/resultado_cos);
+%%condicional para evitar que el resultado sea -0
+if round(resultado)==0
+    resultado=abs(resultado);
+end
+
+fprintf('\nEl valor de tan(%s) es: %5.2f\n',x_rad,resultado);
