@@ -9,7 +9,7 @@ x = str2num(x_rad);
 resultado = 0;
 resultado_cos=0;
 resultado_sen=0;
-% Calculamos el valor de cos(x) utilizando la expansión de Taylor
+% Calculamos el valor de cos(x) y sen(x) utilizando la expansión de Taylor
 for i = 0:100
     termino = ((-1)^i) * (x^(2*i)) / factorial(2*i);
     resultado_cos = resultado_cos + termino;
