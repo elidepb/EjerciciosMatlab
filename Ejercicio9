@@ -1,0 +1,16 @@
+clc;
+fprintf('*****\tCÁLCULO DEL COSENO DE X USANDO EL METODO DE TAYLOR\t*****\n');
+fprintf('------------------------------------------------------------------\n')
+%pedir el valor de x en radianes
+x_rad = input('Ingrese el valor de x en radianes:\n','s');
+x = str2num(x_rad);
+
+% Inicializamos la variable donde acumularemos el resultado
+resultado = 0;
+% Calculamos el valor de cos(x) utilizando la expansión de Taylor
+for i = 0:100
+    termino = ((-1)^i) * (x^(2*i)) / factorial(2*i);
+    resultado = resultado + termino;
+end
+
+fprintf('\nEl valor de cos(%s) es: %5.2f\n',x_rad,resultado);
