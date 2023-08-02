@@ -17,7 +17,7 @@ else
         a=b;b=a+h;
     end
     
-    if b>n
+    if b>n && f(n)~=0
         fprintf('No existe solución \n');
     else
        
@@ -48,9 +48,10 @@ else
                  end
             end
             
+            if c>a
                      fprintf('raiz n° %5.2f : %5.2f \n',i,c);
              
-                 
+            end 
              a=b;
              b=n;
            
