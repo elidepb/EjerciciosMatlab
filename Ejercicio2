@@ -16,10 +16,11 @@ else
     while f(a)*f(b)>0 && b<n
         a=b;b=a+h;
     end
-    if b>n
-        fprintf('No existe solucion\n');
+    if b>n && f(n)~=0
+         fprintf('No existe solucion\n %5.20f %5.20f',b,a);
     else
        
+        
            % Obtener el grado de la función
             syms x;
             expr = sym(f(x));
@@ -40,7 +41,7 @@ else
                      end
                      
                      c=(a+b)/2;
-                     d=c;
+                    
                      
                      %%si el polinomio es grado n y hay n-k raices
                      %%entra en un bucle infinito, el condicional rompe el
@@ -54,10 +55,10 @@ else
                    
                  end
                  
-                 if c<n
+                if c<n 
                      fprintf('raiz n° %5.2f : %5.2f \n',i,c);
-                 end
                  
+                end
                  a=b;
                  b=n;
                  
@@ -66,6 +67,7 @@ else
             
 
         end
+       
     end
 end
 
