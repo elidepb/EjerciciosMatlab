@@ -1,21 +1,26 @@
-clc;
-fprintf('*****\t\tINTEGRACION NUMÉRICA POR TRAPECIOS\t\t*****\n');
-fprintf('---------------------------------------------------------\n');
-f=input('Ingrese la función a integrar:\n','s');
+f=input('Ingrese la función integrando: \n','s'); 
 f=inline(f);
-fprintf('\nIngrese los limites de integracion \n');
-fprintf('----------------------------------\n');
 
-a=input('Ingrese el límite inferior de la integral\n');
-b=input('Ingrese el límite superior de la integral\n');
-D=(b-a)/100000;
-y=0;
+li=input('Ingrese el límite inferior: \n');
+ls=input('Ingrese el límite superior: \n');
 
-for i=1:1:100000
-x=a+D*(i);
-y=y+f(x);
+% Paso de cada subintervalo
+h = (ls - li) / 1000;
+
+% Inicialización del resultado
+resultado = 0;
+
+% Evaluación de la función en los extremos del intervalo
+f_li = f(li);
+f_ls = f(ls);
+
+ % Suma de los valores de la función en los puntos intermedios
+for i = 1:999
+xi = li + i * h;  % Punto intermedio
+resultado = resultado + f(xi);
 end
 
-A=D*y;
-
-fprintf('El valor de la integral es %5.6f \n',A);
+% Calcular la aproximación de la integral por la fórmula de los trapecios
+resultado = h * (f_li + 2 * resultado + f_ls) / 2;
+    
+fprintf('La integral es: %5.2f\n',resultado);
