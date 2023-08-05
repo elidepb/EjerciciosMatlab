@@ -1,0 +1,23 @@
+% Método para calcular arcsen(x) utilizando derivada parcial y la serie de Taylor
+
+% Solicitar el valor de "x" en radianes
+x = input('Ingrese el valor de x en radianes: ');
+
+% Verificar si x está fuera del rango (-1, 1)
+if x <= -1 || x >= 1
+    disp('El valor de x está fuera del rango (-1, 1). arcsen(x) no está definido.');
+else
+    % Aproximación inicial de arcsen(x)
+    a = asin(x);
+
+    % Número de iteraciones para el método de derivada parcial y serie de Taylor
+    num_iteraciones = 10;
+
+    % Aplicar el método de derivada parcial y serie de Taylor
+    for iteracion = 1:num_iteraciones
+        a = a + (1/cos(a)) * (x - sin(a));
+    end
+
+    % Mostrar el resultado
+    disp(['arcsen(' num2str(x) ') = ' num2str(a)]);
+end
