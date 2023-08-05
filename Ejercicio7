@@ -1,0 +1,58 @@
+
+% Pedir al usuario que ingrese el sistema de ecuaciones, sus derivadas y los valores iniciales
+disp('Ingrese las ecuaciones en términos de x e y:');
+syms x y;
+eq1 = input('Ecuación 1: ');
+eq2 = input('Ecuación 2: ');
+
+disp('Ingrese las derivadas de las ecuaciones con respecto a x e y:');
+df_dx1 = input('Derivada de la Ecuación 1 respecto a x: ');
+df_dy1 = input('Derivada de la Ecuación 1 respecto a y: ');
+df_dx2 = input('Derivada de la Ecuación 2 respecto a x: ');
+df_dy2 = input('Derivada de la Ecuación 2 respecto a y: ');
+
+
+
+% Valor inicial
+xk = input('Ingrese el valor inicial de x: ');
+yk = input('Ingrese el valor inicial de y: ');
+
+% Número máximo de iteraciones
+max_iter = 100;
+
+% Tolerancia para el criterio de parada
+tolerancia = 1e-6;
+
+for k = 1:max_iter
+    % Evaluar las funciones y sus derivadas en el punto actual
+    f1_val = subs(eq1, [x, y], [xk, yk]);
+    f2_val = subs(eq2, [x, y], [xk, yk]);
+    
+    df1_dx_val = subs(df_dx1, [x, y], [xk, yk]);
+    df1_dy_val = subs(df_dy1, [x, y], [xk, yk]);
+    df2_dx_val = subs(df_dx2, [x, y], [xk, yk]);
+    df2_dy_val = subs(df_dy2, [x, y], [xk, yk]);
+    
+    % Construir el sistema lineal para la serie de Taylor JACOBIANO
+    A = [df1_dx_val df1_dy_val; df2_dx_val df2_dy_val];
+    b = -[f1_val; f2_val];
+    
+    % Resolver el sistema lineal para obtener el paso siguiente
+    delta = linsolve(A, b);
+    
+    % Actualizar los valores de x e y
+    xk = xk + delta(1);
+    yk = yk + delta(2);
+    
+    % Verificar el criterio de parada
+    if norm(delta) < tolerancia
+        break;
+    end
+end
+
+% Mostrar el resultado
+if k == max_iter
+    disp('No se alcanzó la convergencia dentro del número máximo de iteraciones.');
+else
+    fprintf('Solución aproximada: x = %.6f, y = %.6f\n', xk, yk);
+end
