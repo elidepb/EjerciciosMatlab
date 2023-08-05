@@ -19,10 +19,15 @@ for i = 0:100
     resultado_sen = resultado_sen + termino;
 end
 
-resultado=(resultado_sen/resultado_cos);
+if round(resultado_cos)==0
+    fprintf('el tangente de %s no esta definido',x_rad);
+else
+    resultado=(resultado_sen/resultado_cos);
 %%condicional para evitar que el resultado sea -0
 if round(resultado)==0
     resultado=abs(resultado);
 end
 
 fprintf('\nEl valor de tan(%s) es: %5.2f\n',x_rad,resultado);
+end
+
