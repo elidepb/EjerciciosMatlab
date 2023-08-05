@@ -1,0 +1,32 @@
+clear all;
+clc;
+
+% Pedir al usuario que ingrese la función y los límites de la integral
+disp('Ingrese la función para la integración:');
+syms x;
+func = input('f(x) = ');
+
+a = input('Ingrese el límite inferior (a): ');
+b = input('Ingrese el límite superior (b): ');
+
+% Número de subintervalos (debe ser divisible por 3)
+n = 300;
+
+
+% Longitud de cada subintervalo
+h = (b - a) / n;
+
+% Calcular el valor aproximado de la integral usando la regla de Simpson 3/8
+integral_approx = 0;
+
+for i = 0:n-1
+    x0 = a + i * h;
+    x1 = a + (i + 1) * h;
+    x2 = a + (i + 2) * h;
+    x3 = a + (i + 3) * h;
+    
+    integral_approx = integral_approx + (h / 8) * (subs(func, x0) + 3 * subs(func, x1) + 3 * subs(func, x2) + subs(func, x3));
+end
+
+% Mostrar el resultado
+fprintf('Valor aproximado de la integral definida: %.6f\n', integral_approx);
