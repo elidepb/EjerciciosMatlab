@@ -5,47 +5,37 @@ x2 = input('Ingrese el valor de x2: ');
 mu = 0;
 sigma = 1;
 
-% Tamaño del paso para la aproximación por trapecios
+% Tamaño del paso para la aproximación por rectángulos
 tam_paso = 0.0001;
 op=input('Para cola izquierda ingrese 1\nPara cola derecha ingrese 2\nPara entre x1 y x2 pulse 3\n');
 switch op
     case 1
-        % Calcular CDF para cola izquierda utilizando trapecios
+        % Calcular CDF para cola izquierda utilizando rectángulos
         cdf_izquierda = 0;
         x = -10000;
         while x <= x1
-         x_siguiente = x + tam_paso;
-         cdf_izquierda = cdf_izquierda + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2) + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
-         x = x_siguiente;
+            cdf_izquierda = cdf_izquierda + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            x = x + tam_paso;
         end
-        fprintf('CDF con cola izquierda: %5.6f\n', cdf_izquierda/10000);
+        fprintf('CDF con cola izquierda: %5.6f\n', cdf_izquierda);
 
     case 2
-        % Calcular CDF para cola derecha utilizando trapecios
+        % Calcular CDF para cola derecha utilizando rectángulos
         cdf_derecha = 0;
         x = x2;
-        x_siguiente = x;
-        while x_siguiente <= 1000
-            x_siguiente = x_siguiente + tam_paso;
-            cdf_derecha = cdf_derecha + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2)  + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
+        while x <= 1000
+            cdf_derecha = cdf_derecha + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            x = x + tam_paso;
         end
-        fprintf('CDF con cola derecha: %5.6f\n', cdf_derecha/10000);
+        fprintf('CDF con cola derecha: %5.6f\n', cdf_derecha);
 
     case 3
         % Calcular CDF para el intervalo entre x1 y x2 utilizando el método del punto medio
         cdf_intervalo = 0;
         x = x1 + tam_paso / 2;
         while x < x2
-            x_siguiente = x + tam_paso;
-            cdf_intervalo = cdf_intervalo + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2) + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
-            x = x_siguiente;
+            cdf_intervalo = cdf_intervalo + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            x = x + tam_paso;
         end
-        fprintf('CDF entre x1 y x2: %5.6f\n', cdf_intervalo/10000);
+        fprintf('CDF entre x1 y x2: %5.6f\n', cdf_intervalo);
 end
-
-
-
-
-
-
-
