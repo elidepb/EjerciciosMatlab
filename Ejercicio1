@@ -4,6 +4,7 @@ x2 = input('Ingrese el valor de x2: ');
 % Media y desviación estándar de la distribución normal estándar
 mu = 0;
 sigma = 1;
+cdf = @(x, mu, sigma) (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
 
 % Tamaño del paso para la aproximación por rectángulos
 tam_paso = 0.0001;
@@ -14,7 +15,7 @@ switch op
         cdf_izquierda = 0;
         x = -10000;
         while x <= x1
-            cdf_izquierda = cdf_izquierda + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            cdf_izquierda = cdf_izquierda + tam_paso * cdf(x, mu, sigma);
             x = x + tam_paso;
         end
         fprintf('CDF con cola izquierda: %5.6f\n', cdf_izquierda);
@@ -24,7 +25,7 @@ switch op
         cdf_derecha = 0;
         x = x2;
         while x <= 1000
-            cdf_derecha = cdf_derecha + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            cdf_derecha = cdf_derecha + tam_paso * cdf(x, mu, sigma);
             x = x + tam_paso;
         end
         fprintf('CDF con cola derecha: %5.6f\n', cdf_derecha);
@@ -34,7 +35,7 @@ switch op
         cdf_intervalo = 0;
         x = x1 + tam_paso / 2;
         while x < x2
-            cdf_intervalo = cdf_intervalo + tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
+            cdf_intervalo = cdf_intervalo + tam_paso * cdf(x, mu, sigma);
             x = x + tam_paso;
         end
         fprintf('CDF entre x1 y x2: %5.6f\n', cdf_intervalo);
