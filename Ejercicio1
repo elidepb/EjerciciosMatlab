@@ -1,33 +1,51 @@
-while true
-    %Introduccion de datos
-    x1=input('introduce el limite inferior: ');
-    x2=input('introduce el limite superior: ');
-    if x1>x2
-        fprintf('Error, ingrese los valores correctos');
-    else
-        %creacion de la grafica de la funcion
-        x=linspace(-20,20,50000); y = (1/(sqrt(2*pi)))*exp(-(x.^2)/2); plot(x,y,'k');
-        %creacion del eje coordenado X
-        hold on
-        a=linspace(-20,20,5000); b=0*a; plot(a,b,'b');
-        %Sombreado
-        hold on
-        grid on
-        D=x1:0.01:x2;
-        p1=(1/(sqrt(2*pi)))*exp(-(D.^2)/2);
-        area(D,p1)
-        %valor de area
-        syms xa;
-        f=(1/(sqrt(2*pi)))*exp(-(xa^2)/2);
-        format short
-        vpa(int(f,x1,x2))
-    end
-    I= input('ingrese:\n1: para salir \n2: Continuar\n');
-    if I == 1
-        break;
-    elseif I==2     
-        continue;
-    end
+x1 = input('Ingrese el valor de x1: ');
+x2 = input('Ingrese el valor de x2: ');
+
+% Media y desviación estándar de la distribución normal estándar
+mu = 0;
+sigma = 1;
+
+% Tamaño del paso para la aproximación por trapecios
+tam_paso = 0.0001;
+op=input('Para cola izquierda ingrese 1\nPara cola derecha ingrese 2\nPara entre x1 y x2 pulse 3\n');
+switch op
+    case 1
+        % Calcular CDF para cola izquierda utilizando trapecios
+        cdf_izquierda = 0;
+        x = -10000;
+        while x <= x1
+         x_siguiente = x + tam_paso;
+         cdf_izquierda = cdf_izquierda + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2) + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
+         x = x_siguiente;
+        end
+        fprintf('CDF con cola izquierda: %5.6f\n', cdf_izquierda/10000);
+
+    case 2
+        % Calcular CDF para cola derecha utilizando trapecios
+        cdf_derecha = 0;
+        x = x2;
+        x_siguiente = x;
+        while x_siguiente <= 1000
+            x_siguiente = x_siguiente + tam_paso;
+            cdf_derecha = cdf_derecha + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2)  + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
+        end
+        fprintf('CDF con cola derecha: %5.6f\n', cdf_derecha/10000);
+
+    case 3
+        % Calcular CDF para el intervalo entre x1 y x2 utilizando el método del punto medio
+        cdf_intervalo = 0;
+        x = x1 + tam_paso / 2;
+        while x < x2
+            x_siguiente = x + tam_paso;
+            cdf_intervalo = cdf_intervalo + 0.5 * tam_paso * (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2) + (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x_siguiente - mu) / sigma)^2);
+            x = x_siguiente;
+        end
+        fprintf('CDF entre x1 y x2: %5.6f\n', cdf_intervalo/10000);
 end
+
+
+
+
+
 
 
