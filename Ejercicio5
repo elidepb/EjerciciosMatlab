@@ -5,6 +5,9 @@ fprintf('------------------------------------------------------------------\n')
 x_rad = input('Ingrese el valor de x en radianes:\n','s');
 x = str2num(x_rad);
 
+if x>2*pi
+    x=mod(x,2*pi);
+end
 % Inicializamos la variable donde acumularemos el resultado
 resultado = 0;
 % Calculamos el valor de sen(x) utilizando la expansión de Taylor
