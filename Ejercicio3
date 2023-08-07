@@ -48,7 +48,7 @@ else
                  end
             end
             
-            if c>a
+            if c~=a && c~=b
                      fprintf('raiz n° %5.2f : %5.2f \n',i,c);
              
             end 
