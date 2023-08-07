@@ -3,7 +3,7 @@ f=inline(f);
 
 m=input('Ingrese el límite inferior\n');
 n=input('Ingrese el límite superior\n');
-raices = [];
+
 
 if m>=n
     
