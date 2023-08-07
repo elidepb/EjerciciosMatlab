@@ -28,6 +28,7 @@ else
             fprintf('El polinomio es de grado: %5.2f\n',grado);
             %el algoritmo iterara segun los coeficientes que tenga el
             %polinomio
+            d=0;
             for i=1:grado
                 %metodo regula falsi
                 c=(a*f(b)-b*f(a))/(f(b)-f(a));
@@ -48,13 +49,13 @@ else
                  end
             end
             
-            if c~=a && c~=b
+           if c~=d
                      fprintf('raiz n° %5.2f : %5.2f \n',i,c);
-             
-            end 
+           end
+            
              a=b;
              b=n;
-           
+           d=c;
             
             
             
