@@ -27,7 +27,7 @@ else
             grado = max(feval(symengine, 'degree', expr));
 
            fprintf('El polinomio es de grado: %5.2f\n',grado);
-            
+            d=0;
              for i=1:grado
                 
                  
@@ -55,14 +55,14 @@ else
                    
                  end
                  
-                if c~=a && c~=b
+                if c~=a && c~=b && round(c)~=d
                      fprintf('raiz n° %5.2f : %5.2f \n',i,c);
                  
                 end
                  a=b;
                  b=n;
                  
-                 
+                 d=round(c);
                    
             
 
