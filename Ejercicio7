@@ -1,10 +1,9 @@
-clear all;
-clc;
 
 % Pedir al usuario que ingrese la función y los límites de la integral
 disp('Ingrese la función para la integración:');
-syms x;
-func = input('f(x) = ');
+
+func = input('f(x) = ','s');
+f=inline(func);
 
 a = input('Ingrese el límite inferior (a): ');
 b = input('Ingrese el límite superior (b): ');
@@ -25,7 +24,7 @@ for i = 0:n-1
     x2 = a + (i + 2) * h;
     x3 = a + (i + 3) * h;
     
-    integral_approx = integral_approx + (h / 8) * (subs(func, x0) + 3 * subs(func, x1) + 3 * subs(func, x2) + subs(func, x3));
+    integral_approx = integral_approx + (h / 8) * (f(x0) + 3 * f(x1) + 3 * f(x2) + f(x3));
 end
 
 % Mostrar el resultado
