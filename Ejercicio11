@@ -4,8 +4,8 @@
 x = input('Ingrese el valor de x en radianes: ');
 
 % Verificar si x está fuera del rango (-1, 1)
-if x <= -1 || x >= 1
-    disp('El valor de x está fuera del rango (-1, 1). arcsen(x) no está definido.');
+if x < -1 || x > 1
+    disp('INDEFINIDO');
 else
     % Aproximación inicial de arcsen(x)
     a = asin(x);
