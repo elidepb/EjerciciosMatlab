@@ -1,58 +1,54 @@
+% Método para resolver un sistema de ecuaciones no lineales con dos incógnitas utilizando la serie de Taylor
 
-% Pedir al usuario que ingrese el sistema de ecuaciones, sus derivadas y los valores iniciales
-disp('Ingrese las ecuaciones en términos de x e y:');
-syms x y;
-eq1 = input('Ecuación 1: ');
-eq2 = input('Ecuación 2: ');
+% Pedir al usuario que ingrese las funciones y sus derivadas
+f1_input = input('Ingrese la función f1(x, y): ', 's');
+f2_input = input('Ingrese la función f2(x, y): ', 's');
+df1_dx_input = input('Ingrese la derivada de f1 con respecto a x: ', 's');
+df1_dy_input = input('Ingrese la derivada de f1 con respecto a y: ', 's');
+df2_dx_input = input('Ingrese la derivada de f2 con respecto a x: ', 's');
+df2_dy_input = input('Ingrese la derivada de f2 con respecto a y: ', 's');
 
-disp('Ingrese las derivadas de las ecuaciones con respecto a x e y:');
-df_dx1 = input('Derivada de la Ecuación 1 respecto a x: ');
-df_dy1 = input('Derivada de la Ecuación 1 respecto a y: ');
-df_dx2 = input('Derivada de la Ecuación 2 respecto a x: ');
-df_dy2 = input('Derivada de la Ecuación 2 respecto a y: ');
+f1 = str2func(['@(x, y) ' f1_input]);
+f2 = str2func(['@(x, y) ' f2_input]);
+df1_dx = str2func(['@(x, y) ' df1_dx_input]);
+df1_dy = str2func(['@(x, y) ' df1_dy_input]);
+df2_dx = str2func(['@(x, y) ' df2_dx_input]);
+df2_dy = str2func(['@(x, y) ' df2_dy_input]);
 
+% Cambiar el punto inicial
+x0 = input('Ingrese el valor inicial de x: ');
+y0 = input('Ingrese el valor inicial de y: ');
 
+% Parámetros de precisión
+tolerancia = 1e-6;  % Tolerancia de convergencia
+max_iteraciones = 100;  % Máximo número de iteraciones
 
-% Valor inicial
-xk = input('Ingrese el valor inicial de x: ');
-yk = input('Ingrese el valor inicial de y: ');
+% Aplicar el método de la serie de Taylor
+x = x0;
+y = y0;
 
-% Número máximo de iteraciones
-max_iter = 100;
-
-% Tolerancia para el criterio de parada
-tolerancia = 1e-6;
-
-for k = 1:max_iter
-    % Evaluar las funciones y sus derivadas en el punto actual
-    f1_val = subs(eq1, [x, y], [xk, yk]);
-    f2_val = subs(eq2, [x, y], [xk, yk]);
+for iteracion = 1:max_iteraciones
+    % Calcular el sistema de ecuaciones lineales aproximado usando la serie de Taylor
+    J = [df1_dx(x, y), df1_dy(x, y); df2_dx(x, y), df2_dy(x, y)];
+    F = [f1(x, y); f2(x, y)];
     
-    df1_dx_val = subs(df_dx1, [x, y], [xk, yk]);
-    df1_dy_val = subs(df_dy1, [x, y], [xk, yk]);
-    df2_dx_val = subs(df_dx2, [x, y], [xk, yk]);
-    df2_dy_val = subs(df_dy2, [x, y], [xk, yk]);
+    % Resolver el sistema de ecuaciones lineales aproximado usando la eliminación de Gauss
+    delta = -J\F;
     
-    % Construir el sistema lineal para la serie de Taylor JACOBIANO
-    A = [df1_dx_val df1_dy_val; df2_dx_val df2_dy_val];
-    b = -[f1_val; f2_val];
+    % Actualizar las incógnitas
+    x = x + delta(1);
+    y = y + delta(2);
     
-    % Resolver el sistema lineal para obtener el paso siguiente
-    delta = linsolve(A, b);
-    
-    % Actualizar los valores de x e y
-    xk = xk + delta(1);
-    yk = yk + delta(2);
-    
-    % Verificar el criterio de parada
+    % Verificar la convergencia
     if norm(delta) < tolerancia
         break;
     end
 end
 
 % Mostrar el resultado
-if k == max_iter
-    disp('No se alcanzó la convergencia dentro del número máximo de iteraciones.');
+if iteracion < max_iteraciones
+    disp(['Valor de x: ' num2str(x)]);
+    disp(['Valor de y: ' num2str(y)]);
 else
-    fprintf('Solución aproximada: x = %.6f, y = %.6f\n', xk, yk);
+    disp('No se pudo encontrar una solución con la precisión deseada en el número máximo de iteraciones.');
 end
