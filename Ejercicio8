@@ -1,26 +1,31 @@
-f=input('Ingrese la función integrando: \n','s'); 
-f=inline(f);
 
-li=input('Ingrese el límite inferior: \n');
-ls=input('Ingrese el límite superior: \n');
+% Pedir al usuario que ingrese la función y los límites de la integral
+disp('Ingrese la función para la integración:');
 
-% Paso de cada subintervalo
-h = (ls - li) / 1000;
+func = input('f(x) = ','s');
+f=inline(func);
 
-% Inicialización del resultado
-resultado = 0;
+a = input('Ingrese el límite inferior (a): ');
+b = input('Ingrese el límite superior (b): ');
 
-% Evaluación de la función en los extremos del intervalo
-f_li = f(li);
-f_ls = f(ls);
+% Número de subintervalos (debe ser divisible por 3)
+n = 300;
 
- % Suma de los valores de la función en los puntos intermedios
-for i = 1:999
-xi = li + i * h;  % Punto intermedio
-resultado = resultado + f(xi);
+
+% Longitud de cada subintervalo
+h = (b - a) / n;
+
+% Calcular el valor aproximado de la integral usando la regla de Simpson 3/8
+integral_approx = 0;
+
+for i = 0:n-1
+    x0 = a + i * h;
+    x1 = a + (i + 1) * h;
+    x2 = a + (i + 2) * h;
+    x3 = a + (i + 3) * h;
+    
+    integral_approx = integral_approx + (h / 8) * (f(x0) + 3 * f(x1) + 3 * f(x2) + f(x3));
 end
 
-% Calcular la aproximación de la integral por la fórmula de los trapecios
-resultado = h * (f_li + 2 * resultado + f_ls) / 2;
-    
-fprintf('La integral es: %5.2f\n',resultado);
+% Mostrar el resultado
+fprintf('Valor aproximado de la integral definida: %.6f\n', integral_approx);
