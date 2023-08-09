@@ -9,23 +9,24 @@ a = input('Ingrese el límite inferior (a): ');
 b = input('Ingrese el límite superior (b): ');
 
 % Número de subintervalos (debe ser divisible por 3)
-n = 300;
+n = 1000;
 
 
 % Longitud de cada subintervalo
 h = (b - a) / n;
 
 % Calcular el valor aproximado de la integral usando la regla de Simpson 3/8
-integral_approx = 0;
 
-for i = 0:n-1
-    x0 = a + i * h;
-    x1 = a + (i + 1) * h;
-    x2 = a + (i + 2) * h;
-    x3 = a + (i + 3) * h;
-    
-    integral_approx = integral_approx + (h / 8) * (f(x0) + 3 * f(x1) + 3 * f(x2) + f(x3));
+y_par=0;
+y_impar=0;
+for i=1:999
+    xi=a+i*h;
+    if mod(i,2)==0
+        y_par=y_par+f(xi);
+    else
+         y_impar=y_impar+f(xi);
+    end
 end
 
-% Mostrar el resultado
-fprintf('Valor aproximado de la integral definida: %.6f\n', integral_approx);
+integral_aprox=(h/3)*(f(a)+2*y_par+4*y_impar+f(b));
+fprintf('\t\tResultado: %5.6f\n',integral_aprox);
