@@ -7,13 +7,15 @@ sigma = 1;
 cdf = @(x, mu, sigma) (1 / (sqrt(2*pi) * sigma)) * exp(-0.5 * ((x - mu) / sigma)^2);
 
 % Tamaño del paso para la aproximación por rectángulos
-tam_paso = 0.0001;
+
 op=input('Para cola izquierda ingrese 1\nPara cola derecha ingrese 2\nPara entre x1 y x2 pulse 3\n');
 switch op
     case 1
         % Calcular CDF para cola izquierda utilizando rectángulos
         cdf_izquierda = 0;
         x = -10000;
+        
+        tam_paso=(x1-x)/10000000;
         while x <= x1
             cdf_izquierda = cdf_izquierda + tam_paso * cdf(x, mu, sigma);
             x = x + tam_paso;
@@ -22,10 +24,13 @@ switch op
 
     case 2
         % Calcular CDF para cola derecha utilizando rectángulos
+        
         cdf_derecha = 0;
         x = x2;
-        while x <= 1000
-            cdf_derecha = cdf_derecha + tam_paso * cdf(x, mu, sigma);
+        
+        tam_paso=(10000-x)/10000000;
+        while x <= 10000
+            cdf_derecha = cdf_derecha + tam_paso*cdf(x, mu, sigma);
             x = x + tam_paso;
         end
         fprintf('CDF con cola derecha: %5.6f\n', cdf_derecha);
@@ -33,10 +38,14 @@ switch op
     case 3
         % Calcular CDF para el intervalo entre x1 y x2 utilizando el método del punto medio
         cdf_intervalo = 0;
-        x = x1 + tam_paso / 2;
+        x = x1;
+        tam_paso=(x2-x1)/10000;
+        
+        
         while x < x2
-            cdf_intervalo = cdf_intervalo + tam_paso * cdf(x, mu, sigma);
+            cdf_intervalo = cdf_intervalo +tam_paso* cdf(x, mu, sigma);
             x = x + tam_paso;
         end
+        
         fprintf('CDF entre x1 y x2: %5.6f\n', cdf_intervalo);
 end
