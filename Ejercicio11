@@ -1,23 +1,23 @@
-% Método para calcular arcsen(x) utilizando derivada parcial y la serie de Taylor
+% Valor de entrada (ángulo en radianes)
+x = input('Ingrese el valor del ángulo en radianes: ');
 
-% Solicitar el valor de "x" en radianes
-x = input('Ingrese el valor de x en radianes: ');
-
-% Verificar si x está fuera del rango (-1, 1)
-if x < -1 || x > 1
-    disp('INDEFINIDO');
+% Validación del rango (-pi/2 < x < pi/2)
+if abs(x) >= pi/2
+    disp('El valor absoluto del ángulo debe ser menor que pi/2.');
 else
-    % Aproximación inicial de arcsen(x)
-    a = asin(x);
+    % Número de términos en la serie de Taylor
+    num_terminos = 10;
 
-    % Número de iteraciones para el método de derivada parcial y serie de Taylor
-    num_iteraciones = 10;
+    % Inicializar el resultado de la aproximación del arcoseno
+    arcoseno_aproximado = 0;
 
-    % Aplicar el método de derivada parcial y serie de Taylor
-    for iteracion = 1:num_iteraciones
-        a = a + (1/cos(a)) * (x - sin(a));
+    % Calcular la serie de Taylor para el arcoseno
+    for n = 0:num_terminos
+        coeficiente = factorial(2 * n) / (2^n * factorial(n)^2);
+        termino = coeficiente * x^(2 * n + 1) / (2 * n + 1);
+        arcoseno_aproximado = arcoseno_aproximado + termino;
     end
 
     % Mostrar el resultado
-    disp(['arcsen(' num2str(x) ') = ' num2str(a)]);
+    fprintf('El arcoseno de %.6f aproximado por serie de Taylor es %.6f radianes\n', x, arcoseno_aproximado);
 end
