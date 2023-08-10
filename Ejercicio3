@@ -1,68 +1,42 @@
-%pedir el polinomio
-f=input('Ingrese el polinomio \n','s');
+f=input('ingrese una funcion: ','s');
 f=inline(f);
+%ingresar un intervalo que encierre las soluciones
+li=input('ingrese el limite inferior: ');
+ls=input('ingrese el limite superior: ');
 
-%pedir el intervalo
-m=input('Ingrese el límite inferior del intervalo \n');
-n=input('Ingrese el limite superior del intervalo \n');
-
-if m>=n
-    fprintf('El límite inferior debe ser menor al límite superior \n');
+if li>=ls
+    fprintf('El límite inferior debe ser menor que el superior!');
 else
-    %pedir la amplitud
-    h=input('Ingrese la amplitud \n');
-    a=m;b=a+h;
-    %verificar si existe solución
-    while f(a)*f(b)>0 && b<n
-        a=b;b=a+h;
+    h=input('ingrese la amplitud: ');
+    a=li; b=a+h;
+    d=0;
+  while b<=ls
+    while f(a)*f(b)>0 && b<=ls
+           a=b;b=a+h;     
     end
-    
-    if b>n && f(n)~=0
-        fprintf('No existe solución \n');
-    else
-       
-             % Obtener el grado de la función
-            syms x;
-            expr = sym(f(x));
-            grado = max(feval(symengine, 'degree', expr));
-            fprintf('El polinomio es de grado: %5.2f\n',grado);
-            %el algoritmo iterara segun los coeficientes que tenga el
-            %polinomio
-            d=0;
-            for i=1:grado
-                %metodo regula falsi
-                c=(a*f(b)-b*f(a))/(f(b)-f(a));
-                
-            while abs(f(c))>0.00001
+    if b>ls
+         if f(ls)~=0 
+             if d==0
+                fprintf(' no se ha encontrado alguna solucion. ');
+             end
+        else
+            fprintf('raiz es: %5.2f',ls);
+        end   
+    else     
+            c=(a*f(b)-b*f(a))/(f(b)-f(a));
+            while abs(f(c))>10^(-12)
                 if f(a)*f(c)>0
                     a=c;
                 else
                     b=c;
                 end
                 c=(a*f(b)-b*f(a))/(f(b)-f(a));
-                
-                %para evitar bucles infinitos rompemos el while cuando se
-                %alcance el limite superior, este control de errores debe
-                %ser mejorado
-                 if c==n
-                         break;
-                 end
             end
-            
-           if c~=d
-                     fprintf('raiz n° %5.2f : %5.2f \n',i,c);
-           end
-            
-             a=b;
-             b=n;
-           d=c;
-            
-            
-            
-           
-        end
-        
+            if round(d,2)~=round(c,2)
+                fprintf('una raiz es: %3.2f\n',c);
+            end   
+            a=b;b=a+h;
+            d=c;
     end
-    
-    
+  end
 end
