@@ -1,77 +1,43 @@
-f=input('Ingrese la función\n','s');
+f=input('ingrese una funcion: ','s');
 f=inline(f);
+%ingresar un intervalo que encierre las soluciones
+li=input('ingrese el limite inferior: ');
+ls=input('ingrese el limite superior: ');
 
-m=input('Ingrese el límite inferior\n');
-n=input('Ingrese el límite superior\n');
-
-
-if m>=n
-    
-    fprintf('El límite inferior debe ser menor que el límite superior!');
-    
+if li>=ls
+    fprintf('El límite inferior debe ser menor que el superior!');
 else
-    h=input('Ingrese una amplitud\n');
-    a=m;b=a+h;
-    
-    while f(a)*f(b)>0 && b<n
-        a=b;b=a+h;
+    h=input('ingrese la amplitud: ');
+    a=li; b=a+h;
+    d=0;
+  while b<=ls
+    while f(a)*f(b)>0 && b<=ls
+           a=b;b=a+h;     
     end
-    if b>n && f(n)~=0
-         fprintf('No existe solucion\n %5.20f %5.20f',b,a);
-    else
-       
-        
-           % Obtener el grado de la función
-            syms x;
-            expr = sym(f(x));
-            grado = max(feval(symengine, 'degree', expr));
-
-           fprintf('El polinomio es de grado: %5.2f\n',grado);
-            d=0;
-             for i=1:grado
-                
-                 
-                 c=(a+b)/2;
-                  
-                 while abs(f(c))>0.00001
-                     if f(a)*f(c)>0
-                         a=c;
-                     else
-                         b=c;
-                     end
-                     
-                     c=(a+b)/2;
-                    
-                     
-                     %%si el polinomio es grado n y hay n-k raices
-                     %%entra en un bucle infinito, el condicional rompe el
-                     %%bucle cuando se alcanzo el valor del limite superior
-                     if c==n
-                         break;
-                     end
-                     
-                    
-                     
-                   
-                 end
-                 
-                if c~=a && c~=b && round(c)~=d
-                     fprintf('raiz n° %5.2f : %5.2f \n',i,c);
-                 
+    if b>ls
+         if f(ls)~=0 
+             if d==0
+                fprintf(' no se ha encontrado alguna solucion. ');
+             end
+        else
+            fprintf('raiz es: %5.2f',ls);
+        end   
+    else     
+            c=(b+a)/2;
+            while abs(f(c))>10^(-12)
+                if f(a)*f(c)>0
+                    a=c;
+                else
+                    b=c;
                 end
-                 a=b;
-                 b=n;
-                 
-                 d=round(c);
-                   
+                c=(b+a)/2;
+            end
             
-
-        end
-       
+            if round(d,2)~=round(c,2)
+                fprintf('una raiz es: %3.2f\n',c);
+            end   
+            a=b;b=a+h;
+            d=c;
     end
+  end
 end
-
-
- 
-    
-   
