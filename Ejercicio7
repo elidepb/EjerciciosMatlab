@@ -1,32 +1,25 @@
+f=input('Ingrese la función integrando: ','s');
+f=inline(f);
 
-% Pedir al usuario que ingrese la función y los límites de la integral
-disp('Ingrese la función para la integración:');
+li=input('Ingrese el límite inferior: ');
+ls=input('Ingrese el límite superior: ');
 
-func = input('f(x) = ','s');
-f=inline(func);
+y=0;
 
-a = input('Ingrese el límite inferior (a): ');
-b = input('Ingrese el límite superior (b): ');
+f_li=f(li);
+f_ls=f(ls);
 
-% Número de subintervalos (debe ser divisible por 3)
-n = 1000;
+h=(ls-li)/1000;
 
-
-% Longitud de cada subintervalo
-h = (b - a) / n;
-
-% Calcular el valor aproximado de la integral usando la regla de Simpson 3/8
-
-y_par=0;
-y_impar=0;
 for i=1:999
-    xi=a+i*h;
+    x=li+(i*h);
     if mod(i,2)==0
-        y_par=y_par+f(xi);
+        y=y+2*f(x);
     else
-         y_impar=y_impar+f(xi);
+        y=y+4*f(x);
     end
 end
 
-integral_aprox=(h/3)*(f(a)+2*y_par+4*y_impar+f(b));
-fprintf('\t\tResultado: %5.6f\n',integral_aprox);
+integral=(h/3)*(f_li+y+f_ls);
+
+fprintf('Integral aproximada= %5.6f\n',integral);
