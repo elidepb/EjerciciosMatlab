@@ -3,7 +3,10 @@ f=inline(f);
 
 li=input('Ingrese el límite inferior: \n');
 ls=input('Ingrese el límite superior: \n');
-
+if abs(li)==inf || abs(ls)==inf
+    fprintf('La integral no debe ser impropia!\n');
+else
+   
 % Paso de cada subintervalo
 h = (ls - li) / 1000;
 
@@ -22,3 +25,5 @@ end
 
 % Calcular la aproximación de la integral por la fórmula de los trapecios
 resultado = h * (f_li + 2 * resultado + f_ls) / 2;
+end
+
