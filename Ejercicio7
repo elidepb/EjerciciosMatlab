@@ -5,7 +5,10 @@ li=input('Ingrese el límite inferior: ');
 ls=input('Ingrese el límite superior: ');
 
 y=0;
-
+if abs(li)==inf || abs(ls)==inf
+    fprintf('La integral no debe ser impropia!\n');
+else
+   
 f_li=f(li);
 f_ls=f(ls);
 
@@ -23,3 +26,5 @@ end
 integral=(h/3)*(f_li+y+f_ls);
 
 fprintf('Integral aproximada= %5.6f\n',integral);
+end
+
