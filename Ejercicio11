@@ -1,23 +1,11 @@
-% Valor de entrada (ángulo en radianes)
-x = input('Ingrese el valor del ángulo en radianes: ');
-
-% Validación del rango (-pi/2 < x < pi/2)
-if abs(x) >= pi/2
-    disp('El valor absoluto del ángulo debe ser menor que pi/2.');
+clc; clear all;
+x=input('Ingrese el argumento del arcoseno: ');
+if x<-1 || x>1
+    fprintf('x debe ser un valor entre [%5.2f,%5.2f]',-1,1);
 else
-    % Número de términos en la serie de Taylor
-    num_terminos = 10;
-
-    % Inicializar el resultado de la aproximación del arcoseno
-    arcoseno_aproximado = 0;
-
-    % Calcular la serie de Taylor para el arcoseno
-    for n = 0:num_terminos
-        coeficiente = factorial(2 * n) / (2^n * factorial(n)^2);
-        termino = coeficiente * x^(2 * n + 1) / (2 * n + 1);
-        arcoseno_aproximado = arcoseno_aproximado + termino;
+    suma=0;
+    for i=0:1:85
+        suma=suma+((factorial(2*i)/((4^i)*((factorial(i))^2)*(2*i+1)))*x^(2*i+1));
     end
-
-    % Mostrar el resultado
-    fprintf('El arcoseno de %.6f aproximado por serie de Taylor es %.6f radianes\n', x, arcoseno_aproximado);
+    fprintf('el resultado es %5.8f',suma);
 end
